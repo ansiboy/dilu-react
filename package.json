@@ -1,0 +1,13 @@
+{
+    "name": "maishu-dilu-react",
+    "version": "1.0.0",
+    "main": "./out/idnex",
+    "dependencies": {
+        "maishu-dilu": "^1.8.6"
+    },
+    "devDependencies": {
+        "@types/react": "^17.0.2",
+        "webpack": "^4.30.0",
+        "webpack-cli": "^3.3.0"
+    }
+}
