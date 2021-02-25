@@ -22,6 +22,7 @@ class FieldValidator extends React.Component {
     }
     checkValue(props) {
         let { value, rules } = props;
+        let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
             if (r === false) {
@@ -44,8 +45,12 @@ class FieldValidator extends React.Component {
             else {
                 throw new Error('Please use checkValueAsync method.');
             }
-            return r;
+            if (r == false) {
+                result = r;
+                break;
+            }
         }
+        return result;
     }
     validateValue(props) {
         let { value, rules } = props;

@@ -5,5 +5,6 @@ export declare class FormValidator {
     private _fieldValidators;
     get fieldValidators(): FieldValidator[];
     field(value: any, rules: Rule[], name?: string): JSX.Element;
-    check(): void;
+    check(): boolean;
+    clearErrors(): void;
 }

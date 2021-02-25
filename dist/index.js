@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-dilu-react v1.0.0
+ *  maishu-dilu-react v1.1.0
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
  *  Licensed under the MIT License.
  * 
@@ -854,9 +854,17 @@ class FormValidator {
             } });
     }
     check() {
+        let r = true;
         this._fieldValidators.forEach(c => {
             c.validateUndefineValue = true;
-            c.check();
+            if (c.check() == false)
+                r = false;
+        });
+        return r;
+    }
+    clearErrors() {
+        this._fieldValidators.forEach(c => {
+            c.setState({ errorMessage: "" });
         });
     }
 }
@@ -918,6 +926,7 @@ class FieldValidator extends React.Component {
     }
     checkValue(props) {
         let { value, rules } = props;
+        let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
             if (r === false) {
@@ -940,8 +949,12 @@ class FieldValidator extends React.Component {
             else {
                 throw new Error('Please use checkValueAsync method.');
             }
-            return r;
+            if (r == false) {
+                result = r;
+                break;
+            }
         }
+        return result;
     }
     validateValue(props) {
         let { value, rules } = props;
