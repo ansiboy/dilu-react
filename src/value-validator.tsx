@@ -33,7 +33,7 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
 
     private checkValue(props: FieldValidatorProps): boolean {
         let { value, rules } = props;
-
+        let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
             if (r === false) {
@@ -57,8 +57,13 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
                 throw new Error('Please use checkValueAsync method.');
             }
 
-            return r;
+            if (r == false) {
+                result = r;
+                break;
+            }
         }
+
+        return result;
     }
 
     private validateValue(props: FieldValidatorProps) {

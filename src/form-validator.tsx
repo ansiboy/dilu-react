@@ -20,9 +20,19 @@ export class FormValidator {
     }
 
     check() {
+        let r: boolean = true;
         this._fieldValidators.forEach(c => {
             c.validateUndefineValue = true;
-            c.check();
+            if (c.check() == false)
+                r = false;
+        })
+
+        return r;
+    }
+
+    clearErrors() {
+        this._fieldValidators.forEach(c => {
+            c.setState({ errorMessage: "" });
         })
     }
 }
