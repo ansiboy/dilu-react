@@ -1,10 +1,12 @@
 import { ClassAttributes } from "react";
 import { Rule } from "maishu-dilu";
 import * as React from "react";
+export declare type ValidityCondition = () => boolean;
 export interface FieldValidatorProps extends ClassAttributes<FieldValidator> {
     value: any;
     rules: Rule[];
     name?: string;
+    condition?: ValidityCondition;
 }
 export interface FieldValidatorState {
     errorMessage: string;

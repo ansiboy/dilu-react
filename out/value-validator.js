@@ -22,6 +22,10 @@ class FieldValidator extends React.Component {
     }
     checkValue(props) {
         let { value, rules } = props;
+        if (this.props.condition != null && this.props.condition() == false) {
+            this.setState({ errorMessage: "" });
+            return true;
+        }
         let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);

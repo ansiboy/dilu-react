@@ -36,7 +36,7 @@ export default class extends React.Component<{}, State>{
                             this.setState({ email: e.target.value });
                         }} />
                     {/* <ValueValidator value={email} rules={[rules.required("请输入邮箱"), rules.email("请输入正确的邮箱地址")]} /> */}
-                    {this.formValidator.field(email, [rules.required("请输入邮箱"), rules.email("请输入正确的邮箱地址")])}
+                    {this.formValidator.field(email, [rules.required("请输入邮箱"), rules.email("请输入正确的邮箱地址")], () => (username || "") != "")}
                 </div>
                 <div className="form-group">
                     <button className="btn btn-primary" onClick={() => this.submit()}>

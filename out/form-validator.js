@@ -10,8 +10,15 @@ class FormValidator {
     get fieldValidators() {
         return this._fieldValidators;
     }
-    field(value, rules, name) {
-        return React.createElement(value_validator_1.FieldValidator, { value: value, rules: rules, name: name, ref: e => {
+    field(value, rules, conditionOrName, name) {
+        let condition;
+        if (typeof conditionOrName == "function") {
+            condition = conditionOrName;
+        }
+        else {
+            name = conditionOrName;
+        }
+        return React.createElement(value_validator_1.FieldValidator, { value: value, rules: rules, name: name, condition: condition, ref: e => {
                 if (e == null || this._fieldValidators.indexOf(e) >= 0)
                     return;
                 this._fieldValidators.push(e);

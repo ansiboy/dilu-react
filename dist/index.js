@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-dilu-react v1.1.0
+ *  maishu-dilu-react v1.2.0
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
  *  Licensed under the MIT License.
  * 
@@ -112,7 +112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /*!
  * 
- *  maishu-dilu v1.8.6
+ *  maishu-dilu v1.9.1
  *  https://github.com/ansiboy/dilu
  *  
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
@@ -807,7 +807,7 @@ let elementId = "maishu-dilu-style";
 if (!document.getElementById(elementId) && document.head != null) {
     let element = document.createElement('style');
     element.type = 'text/css';
-    element.id = "maishu-jueying-core-style";
+    element.id = elementId;
     document.head.appendChild(element);
     element.innerHTML = `
     .${formValidator_1.FormValidator.errorClassName} {
@@ -846,8 +846,15 @@ class FormValidator {
     get fieldValidators() {
         return this._fieldValidators;
     }
-    field(value, rules, name) {
-        return React.createElement(value_validator_1.FieldValidator, { value: value, rules: rules, name: name, ref: e => {
+    field(value, rules, conditionOrName, name) {
+        let condition;
+        if (typeof conditionOrName == "function") {
+            condition = conditionOrName;
+        }
+        else {
+            name = conditionOrName;
+        }
+        return React.createElement(value_validator_1.FieldValidator, { value: value, rules: rules, name: name, condition: condition, ref: e => {
                 if (e == null || this._fieldValidators.indexOf(e) >= 0)
                     return;
                 this._fieldValidators.push(e);
@@ -926,6 +933,10 @@ class FieldValidator extends React.Component {
     }
     checkValue(props) {
         let { value, rules } = props;
+        if (this.props.condition != null && this.props.condition() == false) {
+            this.setState({ errorMessage: "" });
+            return true;
+        }
         let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
