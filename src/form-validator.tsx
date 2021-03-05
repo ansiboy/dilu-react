@@ -1,6 +1,6 @@
 import { Rule } from "maishu-dilu";
 import * as React from "react";
-import { FieldValidator } from "./value-validator";
+import { FieldValidator, ValidityCondition } from "./value-validator";
 
 export class FormValidator {
     private _fieldValidators: FieldValidator[] = [];
@@ -9,8 +9,19 @@ export class FormValidator {
         return this._fieldValidators;
     }
 
-    field(value: any, rules: Rule[], name?: string,) {
-        return <FieldValidator value={value} rules={rules} name={name}
+    field(value: any, rules: Rule[], condition?: ValidityCondition)
+    field(value: any, rules: Rule[], name?: string)
+    field(value: any, rules: Rule[], condition: ValidityCondition, name: string);
+    field(value: any, rules: Rule[], conditionOrName?: ValidityCondition | string, name?: string) {
+        let condition: ValidityCondition;
+        if (typeof conditionOrName == "function") {
+            condition = conditionOrName;
+        }
+        else {
+            name = conditionOrName;
+        }
+
+        return <FieldValidator value={value} rules={rules} name={name} condition={condition}
             ref={e => {
                 if (e == null || this._fieldValidators.indexOf(e) >= 0)
                     return;

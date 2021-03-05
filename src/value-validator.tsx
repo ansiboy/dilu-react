@@ -2,10 +2,13 @@ import { ClassAttributes } from "react";
 import { FormValidator, Rule } from "maishu-dilu";
 import * as React from "react";
 
+export type ValidityCondition = () => boolean;
+
 export interface FieldValidatorProps extends ClassAttributes<FieldValidator> {
-    value: any
-    rules: Rule[]
-    name?: string
+    value: any,
+    rules: Rule[],
+    name?: string,
+    condition?: ValidityCondition,
 }
 
 export interface FieldValidatorState {
@@ -33,6 +36,11 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
 
     private checkValue(props: FieldValidatorProps): boolean {
         let { value, rules } = props;
+        if (this.props.condition != null && this.props.condition() == false) {
+            this.setState({ errorMessage: "" })
+            return true;
+        }
+
         let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
