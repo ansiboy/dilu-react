@@ -9,11 +9,11 @@ export class FormValidator {
         return this._fieldValidators;
     }
 
-    field(value: any, rules: Rule[], condition?: ValidityCondition)
-    field(value: any, rules: Rule[], name?: string)
-    field(value: any, rules: Rule[], condition: ValidityCondition, name: string);
+    field(value: any, rules: Rule[], condition?: ValidityCondition): JSX.Element;
+    field(value: any, rules: Rule[], name?: string): JSX.Element;
+    field(value: any, rules: Rule[], condition: ValidityCondition, name: string): JSX.Element;
     field(value: any, rules: Rule[], conditionOrName?: ValidityCondition | string, name?: string) {
-        let condition: ValidityCondition;
+        let condition: ValidityCondition | undefined;
         if (typeof conditionOrName == "function") {
             condition = conditionOrName;
         }
