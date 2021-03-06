@@ -17,7 +17,7 @@ export class FormValidator {
         if (typeof conditionOrName == "function") {
             condition = conditionOrName;
         }
-        else {
+        else if (typeof conditionOrName == "string") {
             name = conditionOrName;
         }
 
@@ -34,8 +34,10 @@ export class FormValidator {
         let r: boolean = true;
         this._fieldValidators.forEach(c => {
             c.validateUndefineValue = true;
-            if (c.check() == false)
+            if (c.check() == false) {
+                console.error(c.state.errorMessage);
                 r = false;
+            }
         })
 
         return r;
