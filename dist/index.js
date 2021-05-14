@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-dilu-react v1.3.0
+ *  maishu-dilu-react v1.5.2
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
  *  Licensed under the MIT License.
  * 
