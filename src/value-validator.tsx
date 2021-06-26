@@ -1,6 +1,7 @@
 import { ClassAttributes } from "react";
-import { FormValidator, Rule } from "maishu-dilu";
+import { Rule } from "maishu-dilu";
 import * as React from "react";
+import { FormValidator } from "./form-validator";
 
 export type ValidityCondition = () => boolean;
 
@@ -9,6 +10,7 @@ export interface FieldValidatorProps extends ClassAttributes<FieldValidator> {
     rules: Rule[],
     name?: string,
     condition?: ValidityCondition,
+    errorClassName?: string,
 }
 
 export interface FieldValidatorState {
@@ -91,7 +93,8 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
 
     render() {
         let { errorMessage } = this.state || {};
-        return <span className={FormValidator.errorClassName} style={{ display: errorMessage ? "block" : "none" }}>
+        return <span className={this.props.errorClassName || FormValidator.errorClassName}
+            style={{ display: errorMessage ? "block" : "none" }}>
             {errorMessage}
         </span>
     }

@@ -42,3 +42,4 @@ class FormValidator {
     }
 }
 exports.FormValidator = FormValidator;
+FormValidator.errorClassName = "validationMessage";

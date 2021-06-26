@@ -5,6 +5,8 @@ import { FieldValidator, ValidityCondition } from "./value-validator";
 export class FormValidator {
     private _fieldValidators: FieldValidator[] = [];
 
+    static errorClassName = "validationMessage";
+
     get fieldValidators() {
         return this._fieldValidators;
     }

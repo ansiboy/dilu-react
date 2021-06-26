@@ -7,6 +7,7 @@ export interface FieldValidatorProps extends ClassAttributes<FieldValidator> {
     rules: Rule[];
     name?: string;
     condition?: ValidityCondition;
+    errorClassName?: string;
 }
 export interface FieldValidatorState {
     errorMessage: string;

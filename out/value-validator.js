@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FieldValidator = void 0;
-const maishu_dilu_1 = require("maishu-dilu");
 const React = require("react");
+const form_validator_1 = require("./form-validator");
 class FieldValidator extends React.Component {
     constructor() {
         super(...arguments);
@@ -69,7 +69,7 @@ class FieldValidator extends React.Component {
     }
     render() {
         let { errorMessage } = this.state || {};
-        return React.createElement("span", { className: maishu_dilu_1.FormValidator.errorClassName, style: { display: errorMessage ? "block" : "none" } }, errorMessage);
+        return React.createElement("span", { className: this.props.errorClassName || form_validator_1.FormValidator.errorClassName, style: { display: errorMessage ? "block" : "none" } }, errorMessage);
     }
 }
 exports.FieldValidator = FieldValidator;

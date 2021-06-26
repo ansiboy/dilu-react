@@ -1,6 +1,6 @@
 {
     "name": "maishu-dilu-react",
-    "version": "1.5.3",
+    "version": "1.5.5",
     "main": "./out/index",
     "types": "./out/index.d.ts",
     "dependencies": {},
