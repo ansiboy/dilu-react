@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-dilu-react v1.5.2
+ *  maishu-dilu-react v1.6.3
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
  *  Licensed under the MIT License.
  * 
@@ -103,119 +103,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/maishu-dilu/dist/index.js":
+/***/ "./node_modules/maishu-dilu/out/errors.js":
 /*!************************************************!*\
-  !*** ./node_modules/maishu-dilu/dist/index.js ***!
+  !*** ./node_modules/maishu-dilu/out/errors.js ***!
   \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
- * 
- *  maishu-dilu v1.9.1
- *  https://github.com/ansiboy/dilu
- *  
- *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
- *  Licensed under the MIT License.
- * 
- */
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(true)
-		module.exports = factory();
-	else {}
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./out/index.js");
-/******/ })
-/************************************************************************/
-/******/ ({
-
-/***/ "./out/errors.js":
-/*!***********************!*\
-  !*** ./out/errors.js ***!
-  \***********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -254,10 +145,10 @@ exports.errors = {
 
 /***/ }),
 
-/***/ "./out/formValidator.js":
-/*!******************************!*\
-  !*** ./out/formValidator.js ***!
-  \******************************/
+/***/ "./node_modules/maishu-dilu/out/formValidator.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/maishu-dilu/out/formValidator.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -274,7 +165,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FormValidator = void 0;
-const errors_1 = __webpack_require__(/*! ./errors */ "./out/errors.js");
+const errors_1 = __webpack_require__(/*! ./errors */ "./node_modules/maishu-dilu/out/errors.js");
 /**
  * 表单验证器，用于对表单中的字段进行验证
  */
@@ -362,7 +253,7 @@ class FormValidator {
         for (let i = 0; i < this.fields.length; i++) {
             let field = this.fields[i];
             let element = this.fieldElement(field);
-            if (field.condition && field.condition(element) == false)
+            if (field.condition && field.condition(element, this.form, this) == false)
                 continue;
             let p = this.checkField(field);
             ps.push(p);
@@ -379,7 +270,7 @@ class FormValidator {
             for (let i = 0; i < this.fields.length; i++) {
                 let field = this.fields[i];
                 let element = this.fieldElement(field);
-                if (field.condition && field.condition(element) == false)
+                if (field.condition && field.condition(element, this.form, this) == false)
                     continue;
                 let p = this.checkFieldAsync(field);
                 ps.push(p);
@@ -558,10 +449,10 @@ FormValidator.errorClassName = 'validationMessage';
 
 /***/ }),
 
-/***/ "./out/index.js":
-/*!**********************!*\
-  !*** ./out/index.js ***!
-  \**********************/
+/***/ "./node_modules/maishu-dilu/out/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/maishu-dilu/out/index.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -569,19 +460,19 @@ FormValidator.errorClassName = 'validationMessage';
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rules = exports.FormValidator = void 0;
-var formValidator_1 = __webpack_require__(/*! ./formValidator */ "./out/formValidator.js");
+var formValidator_1 = __webpack_require__(/*! ./formValidator */ "./node_modules/maishu-dilu/out/formValidator.js");
 Object.defineProperty(exports, "FormValidator", { enumerable: true, get: function () { return formValidator_1.FormValidator; } });
-var rules_1 = __webpack_require__(/*! ./rules */ "./out/rules.js");
+var rules_1 = __webpack_require__(/*! ./rules */ "./node_modules/maishu-dilu/out/rules.js");
 Object.defineProperty(exports, "rules", { enumerable: true, get: function () { return rules_1.rules; } });
-__webpack_require__(/*! ./style */ "./out/style.js");
+__webpack_require__(/*! ./style */ "./node_modules/maishu-dilu/out/style.js");
 
 
 /***/ }),
 
-/***/ "./out/rules.js":
-/*!**********************!*\
-  !*** ./out/rules.js ***!
-  \**********************/
+/***/ "./node_modules/maishu-dilu/out/rules.js":
+/*!***********************************************!*\
+  !*** ./node_modules/maishu-dilu/out/rules.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -792,37 +683,33 @@ function getValidDate(date) {
 
 /***/ }),
 
-/***/ "./out/style.js":
-/*!**********************!*\
-  !*** ./out/style.js ***!
-  \**********************/
+/***/ "./node_modules/maishu-dilu/out/style.js":
+/*!***********************************************!*\
+  !*** ./node_modules/maishu-dilu/out/style.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const formValidator_1 = __webpack_require__(/*! ./formValidator */ "./out/formValidator.js");
+const formValidator_1 = __webpack_require__(/*! ./formValidator */ "./node_modules/maishu-dilu/out/formValidator.js");
 let elementId = "maishu-dilu-style";
-if (!document.getElementById(elementId) && document.head != null) {
-    let element = document.createElement('style');
-    element.type = 'text/css';
-    element.id = elementId;
-    document.head.appendChild(element);
-    element.innerHTML = `
-    .${formValidator_1.FormValidator.errorClassName} {
-        color: red;
-        font-weight: bold;
+if (typeof document != "undefined") {
+    if (!document.getElementById(elementId) && document.head != null) {
+        let element = document.createElement('style');
+        element.type = 'text/css';
+        element.id = elementId;
+        document.head.appendChild(element);
+        element.innerHTML = `
+        .${formValidator_1.FormValidator.errorClassName} {
+            color: red;
+            font-weight: bold;
+        }
+        `;
     }
-    `;
 }
 
-
-/***/ })
-
-/******/ });
-});
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -878,6 +765,7 @@ class FormValidator {
     }
 }
 exports.FormValidator = FormValidator;
+FormValidator.errorClassName = "validationMessage";
 
 
 /***/ }),
@@ -893,7 +781,7 @@ exports.FormValidator = FormValidator;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FormValidator = exports.FieldValidator = exports.rules = void 0;
-var maishu_dilu_1 = __webpack_require__(/*! maishu-dilu */ "./node_modules/maishu-dilu/dist/index.js");
+var maishu_dilu_1 = __webpack_require__(/*! maishu-dilu */ "./node_modules/maishu-dilu/out/index.js");
 Object.defineProperty(exports, "rules", { enumerable: true, get: function () { return maishu_dilu_1.rules; } });
 var value_validator_1 = __webpack_require__(/*! ./value-validator */ "./out/value-validator.js");
 Object.defineProperty(exports, "FieldValidator", { enumerable: true, get: function () { return value_validator_1.FieldValidator; } });
@@ -914,18 +802,25 @@ Object.defineProperty(exports, "FormValidator", { enumerable: true, get: functio
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FieldValidator = void 0;
-const maishu_dilu_1 = __webpack_require__(/*! maishu-dilu */ "./node_modules/maishu-dilu/dist/index.js");
 const React = __webpack_require__(/*! react */ "react");
+const form_validator_1 = __webpack_require__(/*! ./form-validator */ "./out/form-validator.js");
 class FieldValidator extends React.Component {
-    constructor() {
-        super(...arguments);
+    constructor(props) {
+        super(props);
         this._validateUndefineValue = false;
+        this.state = { value: props.value };
     }
-    UNSAFE_componentWillReceiveProps(props) {
-        this.validateValue(props);
+    static getDerivedStateFromProps(props, prevState) {
+        let errorMessage = prevState.errorMessage;
+        if (errorMessage) {
+            errorMessage = FieldValidator.checkValue(props);
+        }
+        return { value: props.value, errorMessage };
     }
     check() {
-        return this.checkValue(this.props);
+        let errorMessage = FieldValidator.checkValue(this.props);
+        this.setState({ errorMessage });
+        return errorMessage == undefined;
     }
     get validateUndefineValue() {
         return this._validateUndefineValue;
@@ -933,13 +828,13 @@ class FieldValidator extends React.Component {
     set validateUndefineValue(value) {
         this._validateUndefineValue = value;
     }
-    checkValue(props) {
+    static checkValue(props) {
         let { value, rules } = props;
-        if (this.props.condition != null && this.props.condition() == false) {
-            this.setState({ errorMessage: "" });
-            return true;
+        if (props.condition != null && props.condition() == false) {
+            // this.setState({ errorMessage: "" })
+            // return true;
+            return undefined;
         }
-        let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
             if (r === false) {
@@ -954,35 +849,33 @@ class FieldValidator extends React.Component {
                 else {
                     errorMessage = "Unknonw Error";
                 }
-                this.setState({ errorMessage });
+                // this.setState({ errorMessage })
+                return errorMessage;
             }
             else if (r === true) {
-                this.setState({ errorMessage: "" });
+                // this.setState({ errorMessage: "" })
+                return undefined;
             }
             else {
                 throw new Error('Please use checkValueAsync method.');
             }
-            if (r == false) {
-                result = r;
-                break;
-            }
         }
-        return result;
+        return undefined;
     }
-    validateValue(props) {
-        let { value, rules } = props;
-        if (value === undefined && this.validateUndefineValue == false) {
-            this.setState({ errorMessage: "" });
-            return;
-        }
-        this.checkValue(props);
-    }
-    componentDidMount() {
-        this.validateValue(this.props);
-    }
+    // private validateValue(props: FieldValidatorProps) {
+    //     let { value, rules } = props;
+    //     if (value === undefined && this.validateUndefineValue == false) {
+    //         this.setState({ errorMessage: "" })
+    //         return;
+    //     }
+    //     this.checkValue(props);
+    // }
+    // componentDidMount() {
+    //     this.validateValue(this.props);
+    // }
     render() {
         let { errorMessage } = this.state || {};
-        return React.createElement("span", { className: maishu_dilu_1.FormValidator.errorClassName, style: { display: errorMessage ? "block" : "none" } }, errorMessage);
+        return React.createElement("span", { className: this.props.errorClassName || form_validator_1.FormValidator.errorClassName, style: { display: errorMessage ? "block" : "none" } }, errorMessage);
     }
 }
 exports.FieldValidator = FieldValidator;

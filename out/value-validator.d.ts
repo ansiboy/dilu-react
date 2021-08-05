@@ -10,16 +10,16 @@ export interface FieldValidatorProps extends ClassAttributes<FieldValidator> {
     errorClassName?: string;
 }
 export interface FieldValidatorState {
-    errorMessage: string;
+    errorMessage?: string;
+    value: any;
 }
 export declare class FieldValidator extends React.Component<FieldValidatorProps, FieldValidatorState> {
     private _validateUndefineValue;
-    UNSAFE_componentWillReceiveProps(props: FieldValidatorProps): void;
+    constructor(props: FieldValidatorProps);
+    static getDerivedStateFromProps(props: FieldValidatorProps, prevState: FieldValidatorState): FieldValidatorState;
     check(): boolean;
     get validateUndefineValue(): boolean;
     set validateUndefineValue(value: boolean);
-    private checkValue;
-    private validateValue;
-    componentDidMount(): void;
+    private static checkValue;
     render(): JSX.Element;
 }

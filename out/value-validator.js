@@ -4,15 +4,22 @@ exports.FieldValidator = void 0;
 const React = require("react");
 const form_validator_1 = require("./form-validator");
 class FieldValidator extends React.Component {
-    constructor() {
-        super(...arguments);
+    constructor(props) {
+        super(props);
         this._validateUndefineValue = false;
+        this.state = { value: props.value };
     }
-    UNSAFE_componentWillReceiveProps(props) {
-        this.validateValue(props);
+    static getDerivedStateFromProps(props, prevState) {
+        let errorMessage = prevState.errorMessage;
+        if (errorMessage) {
+            errorMessage = FieldValidator.checkValue(props);
+        }
+        return { value: props.value, errorMessage };
     }
     check() {
-        return this.checkValue(this.props);
+        let errorMessage = FieldValidator.checkValue(this.props);
+        this.setState({ errorMessage });
+        return errorMessage == undefined;
     }
     get validateUndefineValue() {
         return this._validateUndefineValue;
@@ -20,13 +27,13 @@ class FieldValidator extends React.Component {
     set validateUndefineValue(value) {
         this._validateUndefineValue = value;
     }
-    checkValue(props) {
+    static checkValue(props) {
         let { value, rules } = props;
-        if (this.props.condition != null && this.props.condition() == false) {
-            this.setState({ errorMessage: "" });
-            return true;
+        if (props.condition != null && props.condition() == false) {
+            // this.setState({ errorMessage: "" })
+            // return true;
+            return undefined;
         }
-        let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
             if (r === false) {
@@ -41,32 +48,30 @@ class FieldValidator extends React.Component {
                 else {
                     errorMessage = "Unknonw Error";
                 }
-                this.setState({ errorMessage });
+                // this.setState({ errorMessage })
+                return errorMessage;
             }
             else if (r === true) {
-                this.setState({ errorMessage: "" });
+                // this.setState({ errorMessage: "" })
+                return undefined;
             }
             else {
                 throw new Error('Please use checkValueAsync method.');
             }
-            if (r == false) {
-                result = r;
-                break;
-            }
         }
-        return result;
+        return undefined;
     }
-    validateValue(props) {
-        let { value, rules } = props;
-        if (value === undefined && this.validateUndefineValue == false) {
-            this.setState({ errorMessage: "" });
-            return;
-        }
-        this.checkValue(props);
-    }
-    componentDidMount() {
-        this.validateValue(this.props);
-    }
+    // private validateValue(props: FieldValidatorProps) {
+    //     let { value, rules } = props;
+    //     if (value === undefined && this.validateUndefineValue == false) {
+    //         this.setState({ errorMessage: "" })
+    //         return;
+    //     }
+    //     this.checkValue(props);
+    // }
+    // componentDidMount() {
+    //     this.validateValue(this.props);
+    // }
     render() {
         let { errorMessage } = this.state || {};
         return React.createElement("span", { className: this.props.errorClassName || form_validator_1.FormValidator.errorClassName, style: { display: errorMessage ? "block" : "none" } }, errorMessage);

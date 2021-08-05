@@ -1,9 +1,12 @@
 {
     "name": "maishu-dilu-react",
-    "version": "1.5.5",
+    "version": "1.6.3",
     "main": "./out/index",
     "types": "./out/index.d.ts",
     "dependencies": {},
+    "scripts": {
+        "build": "grunt build"
+    },
     "devDependencies": {
         "@babel/core": "^7.14.2",
         "@babel/preset-env": "^7.4.4",

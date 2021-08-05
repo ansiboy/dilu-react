@@ -14,19 +14,33 @@ export interface FieldValidatorProps extends ClassAttributes<FieldValidator> {
 }
 
 export interface FieldValidatorState {
-    errorMessage: string
+    errorMessage?: string,
+    value: any,
 }
 
 export class FieldValidator extends React.Component<FieldValidatorProps, FieldValidatorState> {
 
     private _validateUndefineValue = false;
 
-    UNSAFE_componentWillReceiveProps(props: FieldValidatorProps) {
-        this.validateValue(props);
+    constructor(props: FieldValidatorProps) {
+        super(props);
+
+        this.state = { value: props.value };
+    }
+
+    static getDerivedStateFromProps(props: FieldValidatorProps, prevState: FieldValidatorState): FieldValidatorState {
+        let errorMessage = prevState.errorMessage;
+        if (errorMessage) {
+            errorMessage = FieldValidator.checkValue(props);
+        }
+        return { value: props.value, errorMessage }
     }
 
     check() {
-        return this.checkValue(this.props);
+        let errorMessage = FieldValidator.checkValue(this.props);
+        this.setState({ errorMessage });
+
+        return errorMessage == undefined;
     }
 
     get validateUndefineValue() {
@@ -36,14 +50,14 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
         this._validateUndefineValue = value;
     }
 
-    private checkValue(props: FieldValidatorProps): boolean {
+    private static checkValue(props: FieldValidatorProps): string | undefined {
         let { value, rules } = props;
-        if (this.props.condition != null && this.props.condition() == false) {
-            this.setState({ errorMessage: "" })
-            return true;
+        if (props.condition != null && props.condition() == false) {
+            // this.setState({ errorMessage: "" })
+            // return true;
+            return undefined;
         }
 
-        let result = true;
         for (let i = 0; i < rules.length; i++) {
             var r = rules[i].validate(value);
             if (r === false) {
@@ -58,38 +72,35 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
                 else {
                     errorMessage = "Unknonw Error";
                 }
-                this.setState({ errorMessage })
+                // this.setState({ errorMessage })
+                return errorMessage;
             }
             else if (r === true) {
-                this.setState({ errorMessage: "" })
+                // this.setState({ errorMessage: "" })
+                return undefined;
             }
             else {
                 throw new Error('Please use checkValueAsync method.');
             }
-
-            if (r == false) {
-                result = r;
-                break;
-            }
         }
 
-        return result;
+        return undefined;
     }
 
-    private validateValue(props: FieldValidatorProps) {
-        let { value, rules } = props;
+    // private validateValue(props: FieldValidatorProps) {
+    //     let { value, rules } = props;
 
-        if (value === undefined && this.validateUndefineValue == false) {
-            this.setState({ errorMessage: "" })
-            return;
-        }
+    //     if (value === undefined && this.validateUndefineValue == false) {
+    //         this.setState({ errorMessage: "" })
+    //         return;
+    //     }
 
-        this.checkValue(props);
-    }
+    //     this.checkValue(props);
+    // }
 
-    componentDidMount() {
-        this.validateValue(this.props);
-    }
+    // componentDidMount() {
+    //     this.validateValue(this.props);
+    // }
 
     render() {
         let { errorMessage } = this.state || {};
