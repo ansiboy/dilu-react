@@ -77,6 +77,9 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
             }
             else if (r === true) {
                 // this.setState({ errorMessage: "" })
+                if (i < rules.length - 1)
+                    continue;
+                    
                 return undefined;
             }
             else {
