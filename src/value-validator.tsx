@@ -1,5 +1,5 @@
 import { ClassAttributes } from "react";
-import { Rule } from "maishu-dilu";
+import { Rule } from "./rules";
 import * as React from "react";
 import { FormValidator } from "./form-validator";
 
@@ -79,7 +79,7 @@ export class FieldValidator extends React.Component<FieldValidatorProps, FieldVa
                 // this.setState({ errorMessage: "" })
                 if (i < rules.length - 1)
                     continue;
-                    
+
                 return undefined;
             }
             else {

@@ -1,4 +1,4 @@
-import { Rule } from "maishu-dilu";
+import { Rule } from "./rules";
 import * as React from "react";
 import { FieldValidator, ValidityCondition } from "./value-validator";
 
