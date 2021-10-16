@@ -1,6 +1,6 @@
 /*!
  * 
- *  maishu-dilu-react v1.6.3
+ *  maishu-dilu-react v1.6.6
  *  Copyright (c) 2016-2018, shu mai <ansiboy@163.com>
  *  Licensed under the MIT License.
  * 
@@ -103,376 +103,88 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/maishu-dilu/out/errors.js":
-/*!************************************************!*\
-  !*** ./node_modules/maishu-dilu/out/errors.js ***!
-  \************************************************/
+/***/ "./out/form-validator.js":
+/*!*******************************!*\
+  !*** ./out/form-validator.js ***!
+  \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.errors = void 0;
-// namespace dilu {
-exports.errors = {
-    argumentNull(parameterName) {
-        let msg = `Parameter ${parameterName} can not be null or empty.`;
-        return new Error(msg);
-    },
-    elementValidateRuleNotSet(element) {
-        let msg = `元素'${element.name}'没有设置验证规则`;
-        return new Error(msg);
-    },
-    fieldElementCanntNull(fieldIndex) {
-        // if (fieldIndex != null)
-        let msg = fieldIndex != null ?
-            `The element value in the field cannt be null, field index is ${fieldIndex}.` :
-            `The element in the field is null`;
-        return new Error(msg);
-    },
-    elementNotExists(name) {
-        let msg = `Element ${name} is not exits in the form.`;
-        return new Error(msg);
-    },
-    fieldResultExpectBooleanType(name) {
-        let msg = `Result of ${name} field is expected boolean.`;
-        return new Error(msg);
-    }
-};
-// }
-
-
-/***/ }),
-
-/***/ "./node_modules/maishu-dilu/out/formValidator.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/maishu-dilu/out/formValidator.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FormValidator = void 0;
-const errors_1 = __webpack_require__(/*! ./errors */ "./node_modules/maishu-dilu/out/errors.js");
-/**
- * 表单验证器，用于对表单中的字段进行验证
- */
+const React = __webpack_require__(/*! react */ "react");
+const value_validator_1 = __webpack_require__(/*! ./value-validator */ "./out/value-validator.js");
 class FormValidator {
-    constructor(form, ...fields) {
-        /** 输入框的值发生改变，是否重新校验该输入框的值，默认为 true */
-        this.validateOnChanged = true;
-        if (!form)
-            throw errors_1.errors.argumentNull('form');
-        this.fields = fields || [];
-        this.form = form;
-        this.elementEvents = {};
+    constructor() {
+        this._fieldValidators = [];
     }
-    appendField(field) {
-        this.fields.push(field);
+    get fieldValidators() {
+        return this._fieldValidators;
     }
-    /**
-     * 清除表单的错误信息
-     */
-    clearErrors() {
-        this.fields.map(o => o.errorElement)
-            .filter(o => o != null)
-            .forEach(o => o.style.display = 'none');
-    }
-    /**
-     * 清除表单的指定元素错误信息
-     * @param name 指定的元素名称
-     */
-    clearElementError(name) {
-        if (!name)
-            throw errors_1.errors.argumentNull('name');
-        let fields = this.fields.filter(o => o.name == name);
-        for (let field of fields) {
-            let errorElement = this.fieldErrorElement(field);
-            errorElement.style.display = 'none';
+    field(value, rules, conditionOrName, name) {
+        let condition;
+        if (typeof conditionOrName == "function") {
+            condition = conditionOrName;
         }
-    }
-    /**
-     * 设置表单的指定元素错误信息
-     * @param name 指定的元素名称
-     * @param error 错误信息
-     */
-    setElementError(name, error) {
-        if (!name)
-            throw errors_1.errors.argumentNull('name');
-        if (!error)
-            throw errors_1.errors.argumentNull('error');
-        let fields = this.fields.filter(o => o.name == name);
-        for (let field of fields) {
-            let errorElement = this.fieldErrorElement(field);
-            errorElement.style.removeProperty('display');
-            errorElement.innerHTML = error;
+        else if (typeof conditionOrName == "string") {
+            name = conditionOrName;
         }
-    }
-    fieldElement(field) {
-        let name = field.name;
-        let element = this.form.querySelectorAll(`[name='${name}']`)[0];
-        if (element == null)
-            throw errors_1.errors.elementNotExists(name);
-        return element;
-    }
-    fieldErrorElement(field) {
-        if (!field.errorElement) {
-            let errorElement = this.form.getElementsByClassName(`${FormValidator.errorClassName} ${field.name}`)[0];
-            if (!errorElement) {
-                let element = this.fieldElement(field);
-                errorElement = document.createElement("span");
-                errorElement.className = FormValidator.errorClassName;
-                errorElement.style.display = 'none';
-                if (element.nextSibling)
-                    element.parentElement.insertBefore(errorElement, element.nextSibling);
-                else
-                    element.parentElement.appendChild(errorElement);
-            }
-            field.errorElement = errorElement;
-        }
-        return field.errorElement;
-        // return errorElement;
-    }
-    /**
-     * 验证字段
-     */
-    check() {
-        let ps = new Array();
-        for (let i = 0; i < this.fields.length; i++) {
-            let field = this.fields[i];
-            let element = this.fieldElement(field);
-            if (field.condition && field.condition(element, this.form, this) == false)
-                continue;
-            let p = this.checkField(field);
-            ps.push(p);
-        }
-        let result = ps.filter(o => o == false).length == 0;
-        return result;
-    }
-    /**
-     * 异步验证字段
-     */
-    checkAsync() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let ps = new Array();
-            for (let i = 0; i < this.fields.length; i++) {
-                let field = this.fields[i];
-                let element = this.fieldElement(field);
-                if (field.condition && field.condition(element, this.form, this) == false)
-                    continue;
-                let p = this.checkFieldAsync(field);
-                ps.push(p);
-            }
-            let checkResults = yield Promise.all(ps);
-            let result = checkResults.filter(o => o == false).length == 0;
-            return result;
-        });
-    }
-    bindElementEvent(field, isAsync) {
-        if (this.elementEvents[field.name]) {
-            return;
-        }
-        let element = this.fieldElement(field);
-        let validateFunc = (() => {
-            let checking = false;
-            return () => {
-                if (checking)
+        return React.createElement(value_validator_1.FieldValidator, { value: value, rules: rules, name: name, condition: condition, ref: e => {
+                if (e == null || this._fieldValidators.indexOf(e) >= 0)
                     return;
-                checking = true;
-                // isAsync ? this.checkFieldAsync(field) : this.checkField(field);
-                if (isAsync) {
-                    this.checkFieldAsync(field)
-                        .then(() => checking = false)
-                        .catch(() => checking = false);
-                }
-                else {
-                    this.checkField(field);
-                    checking = false;
-                }
-            };
-        })();
-        if (this.validateOnChanged) {
-            element.addEventListener('change', validateFunc);
-            let elementType = element.type || "text";
-            if (elementType == "text" || elementType == "password") {
-                element.addEventListener('keyup', validateFunc);
-            }
-            else if (elementType == "radio") {
-                let name = element.name;
-                let elements = this.form.querySelectorAll(`[name='${name}']`);
-                for (let i = 0; i < elements.length; i++) {
-                    if (elements[i] == element) {
-                        continue;
-                    }
-                    elements[i].addEventListener("change", validateFunc);
-                }
-            }
-        }
-        this.elementEvents[field.name] = true;
+                this._fieldValidators.push(e);
+            } });
     }
-    checkField(field) {
-        this.bindElementEvent(field, false);
-        let element = this.fieldElement(field);
-        let depends = field.depends || [];
-        for (let j = 0; j < depends.length; j++) {
-            let dependResult = depends[j](element);
-            if (typeof dependResult == 'object') {
-                throw new Error('Please use checkAsync method.');
+    check() {
+        let r = true;
+        this._fieldValidators.forEach(c => {
+            c.validateUndefineValue = true;
+            if (c.check() == false) {
+                console.error(c.state.errorMessage);
+                r = false;
             }
-            let dependIsOK = dependResult;
-            if (!dependIsOK)
-                return false;
-        }
-        for (let j = 0; j < field.rules.length; j++) {
-            let rule = field.rules[j];
-            let element = this.fieldElement(field);
-            if (element == null)
-                throw errors_1.errors.fieldElementCanntNull();
-            let value = this.elementValue(element);
-            let isPass = rule.validate(value);
-            if (typeof isPass == 'object') {
-                throw new Error('Please use checkAsync method.');
-            }
-            this.showElement(!isPass, field, rule, element);
-            if (!isPass)
-                return false;
-        }
-        return true;
-    }
-    checkFieldAsync(field) {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.bindElementEvent(field, true);
-            let element = this.fieldElement(field);
-            let depends = field.depends || [];
-            for (let j = 0; j < depends.length; j++) {
-                let dependResult = depends[j](element);
-                if (typeof dependResult == 'boolean') {
-                    dependResult = Promise.resolve(dependResult);
-                }
-                let dependIsOK = yield dependResult;
-                if (!dependIsOK)
-                    return false;
-            }
-            for (let j = 0; j < field.rules.length; j++) {
-                let rule = field.rules[j];
-                let element = this.fieldElement(field);
-                if (element == null)
-                    throw errors_1.errors.fieldElementCanntNull();
-                let value = this.elementValue(element);
-                let p = rule.validate(value);
-                if (typeof p == 'boolean') {
-                    p = Promise.resolve(p);
-                }
-                let isPass = yield p;
-                this.showElement(!isPass, field, rule, element);
-                if (!isPass)
-                    return false;
-            }
-            return true;
         });
+        return r;
     }
-    showElement(display, field, rule, element) {
-        let errorElement = this.fieldErrorElement(field);
-        console.assert(errorElement != null, 'errorElement cannt be null.');
-        if (rule.error != null) {
-            errorElement = field.errorElement;
-            let name = this.elementName(element);
-            let errorText = typeof rule.error == 'string' ? rule.error : rule.error() || '';
-            errorElement.innerHTML = errorText.replace('%s', name);
-        }
-        if (display) {
-            errorElement.style.removeProperty('display');
-        }
-        else {
-            errorElement.style.display = 'none';
-        }
-    }
-    /**
-     * 异步验证 HTML 元素
-     * @param name HTML 元素名称
-     */
-    checkElementAsync(name) {
-        let field = this.fields.filter(o => o.name == name)[0];
-        if (!field)
-            throw errors_1.errors.elementNotExists(name);
-        return this.checkFieldAsync(field);
-    }
-    /**
-     * 同步验证 HTML 元素
-     * @param name HTML 元素名称
-     */
-    checkElement(name) {
-        let field = this.fields.filter(o => o.name == name)[0];
-        if (!field)
-            throw errors_1.errors.elementNotExists(name);
-        return this.checkField(field);
-    }
-    elementValue(element) {
-        if (element.tagName == "TEXTAREA") {
-            return element.value;
-        }
-        let inputElement = element;
-        if (inputElement.type == "radio") {
-            let elements = this.form.querySelectorAll(`[name='${inputElement.name}']`);
-            for (let i = 0; i < elements.length; i++) {
-                if (elements[i].checked) {
-                    return elements[i].value;
-                }
-            }
-            return "";
-        }
-        return element.value;
-    }
-    elementName(element) {
-        if (element.tagName == "TEXTAREA") {
-            return element.name;
-        }
-        return element.name;
+    clearErrors() {
+        this._fieldValidators.forEach(c => {
+            c.setState({ errorMessage: "" });
+        });
     }
 }
 exports.FormValidator = FormValidator;
-FormValidator.errorClassName = 'validationMessage';
-// }
+FormValidator.errorClassName = "validationMessage";
 
 
 /***/ }),
 
-/***/ "./node_modules/maishu-dilu/out/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/maishu-dilu/out/index.js ***!
-  \***********************************************/
+/***/ "./out/index.js":
+/*!**********************!*\
+  !*** ./out/index.js ***!
+  \**********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rules = exports.FormValidator = void 0;
-var formValidator_1 = __webpack_require__(/*! ./formValidator */ "./node_modules/maishu-dilu/out/formValidator.js");
-Object.defineProperty(exports, "FormValidator", { enumerable: true, get: function () { return formValidator_1.FormValidator; } });
-var rules_1 = __webpack_require__(/*! ./rules */ "./node_modules/maishu-dilu/out/rules.js");
+exports.FormValidator = exports.FieldValidator = exports.rules = void 0;
+var rules_1 = __webpack_require__(/*! ./rules */ "./out/rules.js");
 Object.defineProperty(exports, "rules", { enumerable: true, get: function () { return rules_1.rules; } });
-__webpack_require__(/*! ./style */ "./node_modules/maishu-dilu/out/style.js");
+var value_validator_1 = __webpack_require__(/*! ./value-validator */ "./out/value-validator.js");
+Object.defineProperty(exports, "FieldValidator", { enumerable: true, get: function () { return value_validator_1.FieldValidator; } });
+var form_validator_1 = __webpack_require__(/*! ./form-validator */ "./out/form-validator.js");
+Object.defineProperty(exports, "FormValidator", { enumerable: true, get: function () { return form_validator_1.FormValidator; } });
 
 
 /***/ }),
 
-/***/ "./node_modules/maishu-dilu/out/rules.js":
-/*!***********************************************!*\
-  !*** ./node_modules/maishu-dilu/out/rules.js ***!
-  \***********************************************/
+/***/ "./out/rules.js":
+/*!**********************!*\
+  !*** ./out/rules.js ***!
+  \**********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -652,6 +364,12 @@ function elementValueCompare(value, otherValue) {
     else {
         elementValue = getValidDate(value);
     }
+    if (elementValue == null) {
+        if (otherValue == null)
+            return "equal";
+        else
+            return "lessThan";
+    }
     if (elementValue < otherValue)
         return 'lessThan';
     else if (elementValue > otherValue)
@@ -668,9 +386,10 @@ function getValidDate(date) {
     if (!date.match('today') && !date.match(dateRegex)) {
         return null;
     }
-    var validDate = new Date(), validDateArray;
+    var validDate = new Date();
+    var validDateArray;
     if (!date.match('today')) {
-        validDateArray = date.split('-');
+        validDateArray = date.split('-').map(o => Number.parseInt(o));
         validDate.setFullYear(validDateArray[0]);
         validDate.setMonth(validDateArray[1] - 1);
         validDate.setDate(validDateArray[2]);
@@ -679,114 +398,6 @@ function getValidDate(date) {
 }
 ;
 // }
-
-
-/***/ }),
-
-/***/ "./node_modules/maishu-dilu/out/style.js":
-/*!***********************************************!*\
-  !*** ./node_modules/maishu-dilu/out/style.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const formValidator_1 = __webpack_require__(/*! ./formValidator */ "./node_modules/maishu-dilu/out/formValidator.js");
-let elementId = "maishu-dilu-style";
-if (typeof document != "undefined") {
-    if (!document.getElementById(elementId) && document.head != null) {
-        let element = document.createElement('style');
-        element.type = 'text/css';
-        element.id = elementId;
-        document.head.appendChild(element);
-        element.innerHTML = `
-        .${formValidator_1.FormValidator.errorClassName} {
-            color: red;
-            font-weight: bold;
-        }
-        `;
-    }
-}
-
-
-/***/ }),
-
-/***/ "./out/form-validator.js":
-/*!*******************************!*\
-  !*** ./out/form-validator.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FormValidator = void 0;
-const React = __webpack_require__(/*! react */ "react");
-const value_validator_1 = __webpack_require__(/*! ./value-validator */ "./out/value-validator.js");
-class FormValidator {
-    constructor() {
-        this._fieldValidators = [];
-    }
-    get fieldValidators() {
-        return this._fieldValidators;
-    }
-    field(value, rules, conditionOrName, name) {
-        let condition;
-        if (typeof conditionOrName == "function") {
-            condition = conditionOrName;
-        }
-        else if (typeof conditionOrName == "string") {
-            name = conditionOrName;
-        }
-        return React.createElement(value_validator_1.FieldValidator, { value: value, rules: rules, name: name, condition: condition, ref: e => {
-                if (e == null || this._fieldValidators.indexOf(e) >= 0)
-                    return;
-                this._fieldValidators.push(e);
-            } });
-    }
-    check() {
-        let r = true;
-        this._fieldValidators.forEach(c => {
-            c.validateUndefineValue = true;
-            if (c.check() == false) {
-                console.error(c.state.errorMessage);
-                r = false;
-            }
-        });
-        return r;
-    }
-    clearErrors() {
-        this._fieldValidators.forEach(c => {
-            c.setState({ errorMessage: "" });
-        });
-    }
-}
-exports.FormValidator = FormValidator;
-FormValidator.errorClassName = "validationMessage";
-
-
-/***/ }),
-
-/***/ "./out/index.js":
-/*!**********************!*\
-  !*** ./out/index.js ***!
-  \**********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FormValidator = exports.FieldValidator = exports.rules = void 0;
-var maishu_dilu_1 = __webpack_require__(/*! maishu-dilu */ "./node_modules/maishu-dilu/out/index.js");
-Object.defineProperty(exports, "rules", { enumerable: true, get: function () { return maishu_dilu_1.rules; } });
-var value_validator_1 = __webpack_require__(/*! ./value-validator */ "./out/value-validator.js");
-Object.defineProperty(exports, "FieldValidator", { enumerable: true, get: function () { return value_validator_1.FieldValidator; } });
-var form_validator_1 = __webpack_require__(/*! ./form-validator */ "./out/form-validator.js");
-Object.defineProperty(exports, "FormValidator", { enumerable: true, get: function () { return form_validator_1.FormValidator; } });
 
 
 /***/ }),
@@ -854,6 +465,8 @@ class FieldValidator extends React.Component {
             }
             else if (r === true) {
                 // this.setState({ errorMessage: "" })
+                if (i < rules.length - 1)
+                    continue;
                 return undefined;
             }
             else {

@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { Rule } from "maishu-dilu";
+import { Rule } from "./rules";
 import { FieldValidator, ValidityCondition } from "./value-validator";
 export declare class FormValidator {
     private _fieldValidators;
